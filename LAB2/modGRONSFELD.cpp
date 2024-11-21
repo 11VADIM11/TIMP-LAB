@@ -1,4 +1,4 @@
-#include "header/modGRONSFELD.h"
+#include "modGRONSFELD.h"
 
 // Конструктор, инициализирующий ключ
 modAlphaCipher::modAlphaCipher(const std::wstring& skey)
