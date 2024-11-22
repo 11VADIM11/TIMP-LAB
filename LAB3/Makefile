@@ -1,4 +1,4 @@
-# Установите переменные
+# Установим переменные
 CXX = g++
 CXXFLAGS = -std=c++11 -Wall -Wextra -g
 LDFLAGS = -lUnitTest++
