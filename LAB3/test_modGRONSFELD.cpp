@@ -59,16 +59,16 @@ TEST(TestLongKey)
 TEST(TestEncryptionCorrectness)
 {
     modAlphaCipher cipher(L"УХА");
-    std::wstring encrypted = cipher.encrypt(L"ЁЁАБЖФВЁМУЗОД");
-    CHECK(encrypted == L"ТРАНСФОРМАТОР"); // ожидаемый результат
+    std::wstring encrypted = cipher.encrypt(L"ТРАНСФОРМАТОР");
+    CHECK(encrypted == L"ЁЁАБЖФВЁМУЗОД"); // ожидаемый результат
 }
 
 // Тест на правильность дешифрования
 TEST(TestDecryptionCorrectness)
 {
     modAlphaCipher cipher(L"УХА");
-    std::wstring decrypted = cipher.decrypt(L"ТРАНСФОРМАТОР");
-    CHECK(decrypted == L"ЁЁАБЖФВЁМУЗОД"); // ожидаемый результат
+    std::wstring decrypted = cipher.decrypt(L"ЁЁАБЖФВЁМУЗОД");
+    CHECK(decrypted == L"ТРАНСФОРМАТОР"); // ожидаемый результат
 }
 
 
