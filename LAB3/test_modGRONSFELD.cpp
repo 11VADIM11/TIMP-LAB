@@ -1,75 +1,75 @@
-#include "modGRONSFELD.h" // Подключаем заголовочный файл вашего шифра
+#include "modGRONSFELD.h"
 
 #include <UnitTest++/UnitTest++.h>
 
 // Тест на шифрование пустого текста
 TEST(TestEncryptEmptyText)
 {
-    modAlphaCipher cipher(L"БКД");
+    modAlphaCipher cipher(L"ЗДМ");
     std::wstring encrypted = cipher.encrypt(L"");
-    CHECK(encrypted == L""); // Ожидаем пустую строку
+    CHECK(encrypted == L""); // пустая строка
 }
 
 // Тест на дешифрование пустого текста
 TEST(TestDecryptEmptyText)
 {
-    modAlphaCipher cipher(L"БКД");
+    modAlphaCipher cipher(L"ЗДМ");
     std::wstring decrypted = cipher.decrypt(L"");
-    CHECK(decrypted == L""); // Ожидаем пустую строку
+    CHECK(decrypted == L""); // пустая строка
 }
 
 // Тест на шифрование текста с недопустимыми символами
 TEST(TestLowerCaseCharacterInText)
 {
-    modAlphaCipher cipher(L"БКД");
-    CHECK_THROW(cipher.encrypt(L"бгеж"), std::invalid_argument); // Ожидаем исключение
+    modAlphaCipher cipher(L"ЗДМ");
+    CHECK_THROW(cipher.encrypt(L"зжйв"), std::invalid_argument); // исключение
 }
 
 // Тест на дешифрование текста с недопустимыми символами
 TEST(TestLowerCaseCharacterInKey)
 {
-    modAlphaCipher cipher(L"БКД");
-    CHECK_THROW(cipher.decrypt(L"бгеж"), std::invalid_argument); // Ожидаем исключение
+    modAlphaCipher cipher(L"ЗДМ");
+    CHECK_THROW(cipher.decrypt(L"зжйв"), std::invalid_argument); // исключение
 }
 
 // Тест на шифрование текста с невалидным символом
 TEST(TestForeignCharacterInText)
 {
-    modAlphaCipher cipher(L"БКД");
-    CHECK_THROW(cipher.encrypt(L"Hello"), std::invalid_argument); // Ожидаем исключение
+    modAlphaCipher cipher(L"ЗДМ");
+    CHECK_THROW(cipher.encrypt(L"World"), std::invalid_argument); // исключение
 }
 
 // Тест на шифрование минимального ключа
 TEST(TestMinimalKey)
 {
-    modAlphaCipher cipher(L"БКД");
-    std::wstring encrypted = cipher.encrypt(L"БГЕЖ"); // валидный текст
-    CHECK(encrypted != L"");                          // Ожидаем, что результат не пустой
+    modAlphaCipher cipher(L"ЗДМ");
+    std::wstring encrypted = cipher.encrypt(L"ГЖСИ"); // валидный текст
+    CHECK(encrypted != L"");                          // результат не пустой
 }
 
 // Тест на шифрование длинного ключа
 TEST(TestLongKey)
 {
-    modAlphaCipher cipher(L"БКДБКДБКДБКДБКД");
-    std::wstring encrypted = cipher.encrypt(L"БГЕЖ"); // валидный текст
-    CHECK(encrypted != L"");                          // Ожидаем, что результат не пустой
+    modAlphaCipher cipher(L"ЗДМЗДМЗДМЗДМЗДМ");
+    std::wstring encrypted = cipher.encrypt(L"ГЖСИ"); // валидный текст
+    CHECK(encrypted != L"");                          // результат не пустой
 }
 
 // Тест на правильность шифрования
 TEST(TestEncryptionCorrectness)
 {
-    modAlphaCipher cipher(L"БКД");
-    std::wstring encrypted = cipher.encrypt(L"БГЕЖ");
-    CHECK(encrypted == L"ВНИЗ"); // ожидаемый результат
+    modAlphaCipher cipher(L"ЗДМ");
+    std::wstring encrypted = cipher.encrypt(L"ГЖСИ");
+    CHECK(encrypted == L"ТЕОР"); // ожидаемый результат
 }
 
 // Тест на правильность дешифрования
 TEST(TestDecryptionCorrectness)
 {
-    modAlphaCipher cipher(L"БКД");
-    std::wstring decrypted = cipher.decrypt(L"ВНИЗ");
-    CHECK(decrypted == L"БГЕЖ"); // ожидаемый результат
+    modAlphaCipher cipher(L"ЗДМ");
+    std::wstring decrypted = cipher.decrypt(L"ТЕОР");
+    CHECK(decrypted == L"ГЖСИ"); // ожидаемый результат
 }
 
-// Основная функция для запуска тестов
+
 int main() { return UnitTest::RunAllTests(); }
