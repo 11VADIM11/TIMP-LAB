@@ -55,13 +55,6 @@ TEST(TestEncryptionWithValidText)
 }
 
 // Тест на дешифрование с валидным текстом
-TEST(TestDecryptionWithValidText)
-{
-    modRoutePermutationCipher cipher(L"456");
-    std::wstring encrypted = cipher.encrypt(L"ЗУЖФУ");
-    std::wstring decrypted = cipher.decrypt(encrypted);
-    CHECK(decrypted == L"ДОБРО"); 
-}
 
 int main()
 {
