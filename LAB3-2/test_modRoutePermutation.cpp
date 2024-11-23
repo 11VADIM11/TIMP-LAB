@@ -28,39 +28,39 @@ TEST(TestEncryptionCorrectness)
 {
     modRoutePermutationCipher cipher(L"456");        
     std::wstring encrypted = cipher.encrypt(L"ДОБРО");
-    CHECK(encrypted == L"РОДОБ");                      
+    CHECK(encrypted == L"ЗУЖФУ");                      
 }
 
 // Тест на правильность дешифрования
 TEST(TestDecryptionCorrectness)
 {
-    modRoutePermutationCipher cipher(L"456"); // Новый пример ключа
-    std::wstring decrypted = cipher.decrypt(L"РОДОБ");
+    modRoutePermutationCipher cipher(L"456"); 
+    std::wstring decrypted = cipher.decrypt(L"ЗУЖФУ");
     CHECK(decrypted == L"ДОБРО");                     
 }
 
 // Тест на обработку некорректного ключа (неположительное число)
 TEST(TestInvalidKey)
 {
-    CHECK_THROW(modRoutePermutationCipher cipher(L"-1"), std::invalid_argument);   // Ожидаем исключение
+    CHECK_THROW(modRoutePermutationCipher cipher(L"-1"), std::invalid_argument);   // исключение
     CHECK_THROW(modRoutePermutationCipher cipher(L"xyz"), std::invalid_argument); // исключение
 }
 
 // Тест на шифрование с валидным текстом
 TEST(TestEncryptionWithValidText)
 {
-    modRoutePermutationCipher cipher(L"456"); // Новый пример ключа
-    std::wstring encrypted = cipher.encrypt(L"Привет");
-    CHECK(encrypted != L"Привет"); // Убеждаемся, что текст действительно зашифрован
+    modRoutePermutationCipher cipher(L"456"); 
+    std::wstring encrypted = cipher.encrypt(L"ЗУЖФУ");
+    CHECK(encrypted != L"ДОБРО"); // Убеждаемся, что текст действительно зашифрован
 }
 
 // Тест на дешифрование с валидным текстом
 TEST(TestDecryptionWithValidText)
 {
-    modRoutePermutationCipher cipher(L"456"); // Новый пример ключа
-    std::wstring encrypted = cipher.encrypt(L"Привет");
+    modRoutePermutationCipher cipher(L"456");
+    std::wstring encrypted = cipher.encrypt(L"ДОБРО");
     std::wstring decrypted = cipher.decrypt(encrypted);
-    CHECK(decrypted == L"Привет"); // Убеждаемся, что мы можем расшифровать обратно
+    CHECK(decrypted == L"ЗУЖФУ"); // Убеждаемся, что мы можем расшифровать обратно
 }
 
 int main()
