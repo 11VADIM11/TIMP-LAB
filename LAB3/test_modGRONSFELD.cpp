@@ -5,7 +5,7 @@
 // Тест на шифрование пустого текста
 TEST(TestEncryptEmptyText)
 {
-    modAlphaCipher cipher(L"ЗДМ");
+    modAlphaCipher cipher(L"УХА");
     std::wstring encrypted = cipher.encrypt(L"");
     CHECK(encrypted == L""); // пустая строка
 }
@@ -13,7 +13,7 @@ TEST(TestEncryptEmptyText)
 // Тест на дешифрование пустого текста
 TEST(TestDecryptEmptyText)
 {
-    modAlphaCipher cipher(L"ЗДМ");
+    modAlphaCipher cipher(L"УХА");
     std::wstring decrypted = cipher.decrypt(L"");
     CHECK(decrypted == L""); // пустая строка
 }
@@ -21,28 +21,28 @@ TEST(TestDecryptEmptyText)
 // Тест на шифрование текста с недопустимыми символами
 TEST(TestLowerCaseCharacterInText)
 {
-    modAlphaCipher cipher(L"ЗДМ");
+    modAlphaCipher cipher(L"УХА");
     CHECK_THROW(cipher.encrypt(L"зжйв"), std::invalid_argument); // исключение
 }
 
 // Тест на дешифрование текста с недопустимыми символами
 TEST(TestLowerCaseCharacterInKey)
 {
-    modAlphaCipher cipher(L"ЗДМ");
+    modAlphaCipher cipher(L"УХА");
     CHECK_THROW(cipher.decrypt(L"зжйв"), std::invalid_argument); // исключение
 }
 
 // Тест на шифрование текста с невалидным символом
 TEST(TestForeignCharacterInText)
 {
-    modAlphaCipher cipher(L"ЗДМ");
+    modAlphaCipher cipher(L"УХА");
     CHECK_THROW(cipher.encrypt(L"World"), std::invalid_argument); // исключение
 }
 
 // Тест на шифрование минимального ключа
 TEST(TestMinimalKey)
 {
-    modAlphaCipher cipher(L"ЗДМ");
+    modAlphaCipher cipher(L"УХА");
     std::wstring encrypted = cipher.encrypt(L"ГЖСИ"); // валидный текст
     CHECK(encrypted != L"");                          // результат не пустой
 }
@@ -50,7 +50,7 @@ TEST(TestMinimalKey)
 // Тест на шифрование длинного ключа
 TEST(TestLongKey)
 {
-    modAlphaCipher cipher(L"ЗДМЗДМЗДМЗДМЗДМ");
+    modAlphaCipher cipher(L"УХАУХАУХАУХАУХА");
     std::wstring encrypted = cipher.encrypt(L"ГЖСИ"); // валидный текст
     CHECK(encrypted != L"");                          // результат не пустой
 }
@@ -58,17 +58,17 @@ TEST(TestLongKey)
 // Тест на правильность шифрования
 TEST(TestEncryptionCorrectness)
 {
-    modAlphaCipher cipher(L"ЗДМ");
-    std::wstring encrypted = cipher.encrypt(L"ГЖСИ");
-    CHECK(encrypted == L"ТЕОР"); // ожидаемый результат
+    modAlphaCipher cipher(L"УХА");
+    std::wstring encrypted = cipher.encrypt(L"ЁЁАБЖФВЁМУЗОД");
+    CHECK(encrypted == L"ТРАНСФОРМАТОР"); // ожидаемый результат
 }
 
 // Тест на правильность дешифрования
 TEST(TestDecryptionCorrectness)
 {
-    modAlphaCipher cipher(L"ЗДМ");
-    std::wstring decrypted = cipher.decrypt(L"ТЕОР");
-    CHECK(decrypted == L"ГЖСИ"); // ожидаемый результат
+    modAlphaCipher cipher(L"УХА");
+    std::wstring decrypted = cipher.decrypt(L"ТРАНСФОРМАТОР");
+    CHECK(decrypted == L"ЁЁАБЖФВЁМУЗОД"); // ожидаемый результат
 }
 
 
