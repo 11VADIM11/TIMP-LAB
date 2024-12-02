@@ -1,35 +1,22 @@
-# Установим переменные
 CXX = g++
-CXXFLAGS = -std=c++11 -Wall -Wextra -g
-LDFLAGS = -lUnitTest++
+CXXFLAGS = -std=c++11 -Wall -g -I/usr/include/UnitTest++
+TARGET = modGRONSFELD
+TEST_TARGET = test_modGRONSFELD
 
-# Исходные файлы
-SRC_MAIN = main.cpp modGRONSFELD.cpp
-SRC_TEST = test_modGRONSFELD.cpp modGRONSFELD.cpp
-OBJ_MAIN = $(SRC_MAIN:.cpp=.o)
-OBJ_TEST = $(SRC_TEST:.cpp=.o)
+SRCS = modGRONSFELD.cpp main.cpp
+TEST_SRCS = test_modGRONSFELD.cpp modGRONSFELD.cpp
 
-# Исполняемые файлы
-TARGET_MAIN = chiper_main
-TARGET_TEST = chiper_test
+.PHONY: all clean test
 
-# Правила по умолчанию
-all: $(TARGET_MAIN) $(TARGET_TEST)
+all: $(TARGET)
 
-# Линковка основного исполняемого файла
-$(TARGET_MAIN): $(OBJ_MAIN)
-	$(CXX) -o $@ $^ $(LDFLAGS)
+$(TARGET): $(SRCS)
+	$(CXX) $(CXXFLAGS) $(SRCS) -o $(TARGET)
 
-# Линковка исполняемого файла с тестами
-$(TARGET_TEST): $(OBJ_TEST)
-	$(CXX) -o $@ $^ $(LDFLAGS)
+test: $(TEST_TARGET)
 
-# Компиляция объектных файлов
-%.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+$(TEST_TARGET): $(TEST_SRCS)
+	$(CXX) $(CXXFLAGS) $(TEST_SRCS) -o $(TEST_TARGET) -lUnitTest++
 
-# Чистка временных файлов
 clean:
-	rm -f $(OBJ_MAIN) $(TARGET_MAIN) $(OBJ_TEST) $(TARGET_TEST)
-
-.PHONY: all clean
+	rm -f $(TARGET) $(TEST_TARGET)

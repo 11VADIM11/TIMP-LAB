@@ -1,75 +1,68 @@
 #include "modGRONSFELD.h"
-
 #include <UnitTest++/UnitTest++.h>
 
-// Тест на шифрование пустого текста
-TEST(TestEncryptEmptyText)
-{
+TEST(TestConstructorValidKey) {
+    modAlphaCipher cipher(L"УХА"); 
+}
+
+TEST(TestConstructorInvalidKeyLowerCase) {
+    CHECK_THROW(modAlphaCipher(L"уха"), std::invalid_argument); 
+}
+
+TEST(TestConstructorEmptyKey) {
+    CHECK_THROW(modAlphaCipher(L""), std::invalid_argument);
+}
+
+TEST(TestConstructorInvalidKeyWithDigits) {
+    CHECK_THROW(modAlphaCipher(L"УХА123"), std::invalid_argument); 
+}
+
+TEST(TestConstructorInvalidKeyWithSpecialChars) {
+    CHECK_THROW(modAlphaCipher(L"У,ХА"), std::invalid_argument);
+}
+
+TEST(TestEncryptEmptyText) {
     modAlphaCipher cipher(L"УХА");
-    std::wstring encrypted = cipher.encrypt(L"");
-    CHECK(encrypted == L""); // пустая строка
+    CHECK_THROW(cipher.encrypt(L""), std::invalid_argument);
 }
 
-// Тест на дешифрование пустого текста
-TEST(TestDecryptEmptyText)
-{
+TEST(TestDecryptEmptyText) {
     modAlphaCipher cipher(L"УХА");
-    std::wstring decrypted = cipher.decrypt(L"");
-    CHECK(decrypted == L""); // пустая строка
+    CHECK_THROW(cipher.decrypt(L""), std::invalid_argument); 
 }
 
-// Тест на шифрование текста с недопустимыми символами
-TEST(TestLowerCaseCharacterInText)
-{
+TEST(TestEncryptTextWithLowerCase) {
     modAlphaCipher cipher(L"УХА");
-    CHECK_THROW(cipher.encrypt(L"ёёабжфвёмузод"), std::invalid_argument); // исключение
+    CHECK_THROW(cipher.encrypt(L"ёёабжфвёмузод"), std::invalid_argument); 
 }
 
-// Тест на дешифрование текста с недопустимыми символами
-TEST(TestLowerCaseCharacterInKey)
-{
+TEST(TestEncryptTextWithForeignCharacters) {
     modAlphaCipher cipher(L"УХА");
-    CHECK_THROW(cipher.decrypt(L"ёёабжфвёмузод"), std::invalid_argument); // исключение
+    CHECK_THROW(cipher.encrypt(L"Hello"), std::invalid_argument);
 }
 
-// Тест на шифрование текста с невалидным символом
-TEST(TestForeignCharacterInText)
-{
-    modAlphaCipher cipher(L"УХА");
-    CHECK_THROW(cipher.encrypt(L"World"), std::invalid_argument); // исключение
-}
-
-// Тест на шифрование минимального ключа
-TEST(TestMinimalKey)
-{
-    modAlphaCipher cipher(L"УХА");
-    std::wstring encrypted = cipher.encrypt(L"ЁЁАБЖФВЁМУЗОД"); // валидный текст
-    CHECK(encrypted != L"");                          // результат не пустой
-}
-
-// Тест на шифрование длинного ключа
-TEST(TestLongKey)
-{
-    modAlphaCipher cipher(L"УХАУХАУХАУХАУХА");
-    std::wstring encrypted = cipher.encrypt(L"ЁЁАБЖФВЁМУЗОД"); // валидный текст
-    CHECK(encrypted != L"");                          // результат не пустой
-}
-
-// Тест на правильность шифрования
-TEST(TestEncryptionCorrectness)
-{
+TEST(TestEncryptValidText) {
     modAlphaCipher cipher(L"УХА");
     std::wstring encrypted = cipher.encrypt(L"ТРАНСФОРМАТОР");
-    CHECK(encrypted == L"ЁЁАБЖФВЁМУЗОД"); // ожидаемый результат
+    CHECK(encrypted == L"ЁЁАБЖФВЁМУЗОД"); 
 }
 
-// Тест на правильность дешифрования
-TEST(TestDecryptionCorrectness)
-{
+TEST(TestDecryptTextWithLowerCase) {
+    modAlphaCipher cipher(L"УХА");
+    CHECK_THROW(cipher.decrypt(L"ёёабжфвёмузод"), std::invalid_argument);
+}
+
+TEST(TestDecryptTextWithForeignCharacters) {
+    modAlphaCipher cipher(L"УХА");
+    CHECK_THROW(cipher.decrypt(L"Hello"), std::invalid_argument);
+}
+
+TEST(TestDecryptionCorrectness) {
     modAlphaCipher cipher(L"УХА");
     std::wstring decrypted = cipher.decrypt(L"ЁЁАБЖФВЁМУЗОД");
-    CHECK(decrypted == L"ТРАНСФОРМАТОР"); // ожидаемый результат
+    CHECK(decrypted == L"ТРАНСФОРМАТОР");
 }
 
-
-int main() { return UnitTest::RunAllTests(); }
+int main() { 
+    return UnitTest::RunAllTests();
+}

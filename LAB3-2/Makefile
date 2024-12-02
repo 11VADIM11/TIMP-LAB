@@ -1,35 +1,21 @@
-# Установим переменные
 CXX = g++
-CXXFLAGS = -std=c++11 -Wall -Wextra -g
-LDFLAGS = -lUnitTest++
+CXXFLAGS = -std=c++11 -Wall -Wextra -I./include
 
-# Исходные файлы
-SRC_MAIN = main.cpp modRoutePermutation.cpp
-SRC_TEST = test_modRoutePermutation.cpp modRoutePermutation.cpp
-OBJ_MAIN = $(SRC_MAIN:.cpp=.o)
-OBJ_TEST = $(SRC_TEST:.cpp=.o)
+SRC = main.cpp modRoutePermutation.cpp
+TEST_SRC = test_modRoutePermutation.cpp
+OBJ = $(SRC:.cpp=.o)
+TEST_OBJ = $(TEST_SRC:.cpp=.o)
 
-# Исполняемые файлы
-TARGET_MAIN = chiper_main
-TARGET_TEST = chiper_test
+all: main
 
-# Правила по умолчанию
-all: $(TARGET_MAIN) $(TARGET_TEST)
+main: $(OBJ)
+	$(CXX) -o main $(OBJ)
 
-# Линковка основного исполняемого файла
-$(TARGET_MAIN): $(OBJ_MAIN)
-	$(CXX) -o $@ $^ $(LDFLAGS)
-
-# Линковка исполняемого файла с тестами
-$(TARGET_TEST): $(OBJ_TEST)
-	$(CXX) -o $@ $^ $(LDFLAGS)
-
-# Компиляция объектных файлов
+test: $(OBJ) $(TEST_OBJ)
+	$(CXX) -o test_modRoutePermutation $(TEST_OBJ) modRoutePermutation.o -lUnitTest++
+	
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# Чистка временных файлов
 clean:
-	rm -f $(OBJ_MAIN) $(TARGET_MAIN) $(OBJ_TEST) $(TARGET_TEST)
-
-.PHONY: all clean
+	rm -f $(OBJ) $(TEST_OBJ) main test_modRoutePermutation
