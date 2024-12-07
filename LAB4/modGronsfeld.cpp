@@ -1,4 +1,24 @@
-#include "modGRONSFELD.h"
+/**
+ * @file modGronsfeld.cpp
+ * @brief Реализация методов класса modAlphaCipher.
+ * 
+ * Этот файл содержит реализацию всех методов, включая конструктор, шифрование, расшифрование,
+ * и вспомогательные функции преобразования строки в числовой вектор и обратно.
+ * 
+ * @details
+ * Реализована обработка ошибок. Ключ и текст валидируются на корректность символов.
+ * 
+ * @note
+ * Все ошибки выбрасываются в виде исключений `std::invalid_argument`.
+ * 
+ * @author 
+ * Ковалев В.Д.
+ * 
+ * @date 
+ * 7 декабря 2024 г.
+ */
+
+#include "modGronsfeld.h"
 
 modAlphaCipher::modAlphaCipher(const std::wstring& skey) {
     if (skey.empty()) {
